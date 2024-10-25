@@ -1,0 +1,95 @@
+package pacman;
+
+import java.util.List;
+
+public class Map {
+    private char[][] grid;
+    private final int rows = 21; // 행 수
+    private final int cols = 45; // 열 수
+
+    public Map() {
+        grid = new char[][] {
+            {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+            {'#', 'O', 'O', '#', '#', '#', 'O', 'O', 'O', '#', 'O', '#', '#', 'O', '#', '#', 'O', 'O', 'O', '#', '#', '#', 'O', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', '#', 'O', 'O', 'O', '#', 'O', 'O', 'O', 'O', 'O', 'O', '#', 'O', 'O', 'O', 'O', '#', '#', '#', 'O', '#'},
+            {'#', '#', '#', '#', 'O', '#', '#', 'O', '#', '#', '#', 'O', '#', '#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#', 'O', '#', '#', '#', '#', '#', '#', '#', 'O', 'O', 'O', '#'},
+            {'#', 'O', '#', '#', '#', 'O', 'O', 'O', '#', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', '#', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', '#', '#', 'O', '#', 'O', 'O', 'O', '#', 'O', 'O', 'O', '#'},
+            {'#', '#', '#', '#', 'O', '#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#', 'O', '#', '#', '#', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', '#', '#'},
+            {'#', 'O', '#', '#', '#', '#', '#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', '#'},
+            {'#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', '#', '#', 'O', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', '#', '#', '#', '#', '#', '#', 'O', '#', '#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', '#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#'},
+            {'#', 'O', '#', '#', '#', '#', 'O', '#', 'O', '#', '#', '#', '#', '#', 'O', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', '#', '#', 'O', 'O', 'O', '#'},
+            {'#', '#', '#', 'O', '#', '#', '#', '#', 'O', '#', 'O', '#', '#', 'O', 'O', 'O', '#'},
+            {'#', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', 'O', '#', '#', '#', '#', '#', '#', '#'},
+            {'#', 'O', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'},
+            {'#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#', '#'}
+        };
+        
+        // 중앙에 유령이 들어갈 수 있는 공간 추가
+        for (int r = 8; r <= 12; r++) {
+            for (int c = 18; c <= 26; c++) {
+                grid[r][c] = 'O'; // 빈 공간
+            }
+        }
+    }
+
+    public void printMap(Pacman pacman, List<Ghost> ghosts, List<Item> items) {
+        int pacmanX = pacman.getX();
+        int pacmanY = pacman.getY();
+
+        for (int row = 0; row < grid.length; row++) {
+            for (int col = 0; col < grid[row].length; col++) {
+                char cell = grid[row][col];
+                boolean isGhost = false;
+                boolean isItem = false;
+
+                // 유령 위치 확인
+                for (Ghost ghost : ghosts) {
+                    if (ghost.getX() == row && ghost.getY() == col) {
+                        isGhost = true;
+                        break;
+                    }
+                }
+
+                // 아이템 위치 확인
+                for (Item item : items) {
+                    if (item.getX() == row && item.getY() == col) {
+                        isItem = true;
+                        break;
+                    }
+                }
+
+                // 팩맨 위치 출력
+                if (row == pacmanX && col == pacmanY) {
+                    System.out.print("P "); // 팩맨
+                } 
+                // 유령 위치 출력
+                else if (isGhost) {
+                    System.out.print("G "); // 유령
+                } 
+                // 아이템 위치 출력
+                else if (isItem) {
+                    System.out.print("* "); // 별
+                } 
+                // 벽 및 빈 공간 출력
+                else {
+                    System.out.print(cell + " "); // 벽 또는 빈 공간
+                }
+            }
+            System.out.println();
+        }
+    }
+
+    public int getCenterX() { return 9; } // 중앙 X 좌표
+    public int getCenterY() { return 9; } // 중앙 Y 좌표
+    public int getRows() { return rows; }
+    public int getCols() { return cols; }
+    public boolean isWall(int x, int y) {
+        return grid[x][y] == '#';
+    }
+}

@@ -1,0 +1,7 @@
+package pacman;
+
+import javax.swing.JPanel;
+
+public class Model extends JPanel implements ActionListener{
+
+}

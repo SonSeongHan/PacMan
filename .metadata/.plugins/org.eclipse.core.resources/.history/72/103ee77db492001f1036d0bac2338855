@@ -1,0 +1,16 @@
+public class Ghost {
+    private int x, y; // 위치
+
+    public Ghost(int startX, int startY) {
+        this.x = startX;
+        this.y = startY;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+}

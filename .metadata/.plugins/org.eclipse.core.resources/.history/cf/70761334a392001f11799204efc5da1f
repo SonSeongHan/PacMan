@@ -1,0 +1,20 @@
+package pacman;
+
+public class Item {
+    private Map map;
+
+    public Item(Map map) {
+        this.map = map;
+    }
+
+    public void checkCollection(Pacman pacman) {
+        int[] pacmanPos = map.getPacmanPosition();
+        int[] itemPos = map.getItemPosition();
+
+        if (pacmanPos[0] == itemPos[0] && pacmanPos[1] == itemPos[1]) {
+            System.out.println("동전을 수집했습니다!");
+            // 동전을 수집했으니 위치를 다른 곳으로 이동시키기
+            map.moveItem();
+        }
+    }
+}

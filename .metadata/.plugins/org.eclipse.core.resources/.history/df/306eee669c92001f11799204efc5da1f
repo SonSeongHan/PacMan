@@ -1,0 +1,32 @@
+package pacman;
+
+public class Pacman {
+    private int x;
+    private int y;
+
+    public Pacman(int startX, int startY) {
+        this.x = startX;
+        this.y = startY;
+    }
+
+    public void move(String direction, Map map) {
+        int newX = x;
+        int newY = y;
+
+        switch (direction) {
+            case "w": newX--; break; // 위
+            case "s": newX++; break; // 아래
+            case "a": newY--; break; // 왼쪽
+            case "d": newY++; break; // 오른쪽
+        }
+
+        // 벽이 아닌 경우 이동
+        if (!map.isWall(newX, newY)) {
+            x = newX;
+            y = newY;
+        }
+    }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+}

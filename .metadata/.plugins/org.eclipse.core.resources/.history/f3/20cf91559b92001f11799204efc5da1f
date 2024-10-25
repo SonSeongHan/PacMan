@@ -1,0 +1,85 @@
+package pacman;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
+
+public class PacmanGame {
+    private Map gameMap;
+    private Pacman pacman;
+    private List<Ghost> ghosts;
+    private List<Item> items;
+    private Scanner scanner;
+
+    public PacmanGame() {
+        gameMap = new Map();
+        pacman = new Pacman(1, 1); // 팩맨 초기 위치
+        ghosts = new ArrayList<>();
+        items = new ArrayList<>();
+        initializeGame();
+        scanner = new Scanner(System.in);
+    }
+
+    private void initializeGame() {
+        Random random = new Random();
+        
+        // 유령을 중앙 위치에 배치
+        for (int i = 0; i < 3; i++) {
+            ghosts.add(new Ghost(gameMap.getCenterX(), gameMap.getCenterY(), gameMap));
+        }
+
+        // 동전 대신 랜덤으로 별 배치
+        for (int i = 0; i < 5; i++) {
+            int x, y;
+            boolean validPosition;
+            do {
+                x = random.nextInt(gameMap.getRows());
+                y = random.nextInt(gameMap.getCols());
+                
+                // 유효한 위치인지 확인
+                validPosition = !gameMap.isWall(x, y) && 
+                                (x != pacman.getX() || y != pacman.getY());
+
+                // 아이템 중복 확인
+                for (Item item : items) {
+                    if (item.getX() == x && item.getY() == y) {
+                        validPosition = false;
+                        break;
+                    }
+                }
+            } while (!validPosition);
+            items.add(new Star(x, y)); // 별 생성
+        }
+    }
+
+    public void start() {
+        // 유령 스레드 시작
+        for (Ghost ghost : ghosts) {
+            new Thread(ghost).start();
+        }
+
+        // 게임 루프
+        while (true) {
+            gameMap.printMap(pacman, ghosts, items);
+            System.out.print("Move (w/a/s/d): ");
+            String move = scanner.nextLine();
+            pacman.move(move, gameMap);
+            checkGameOver();
+        }
+    }
+
+    private void checkGameOver() {
+        for (Ghost ghost : ghosts) {
+            if (pacman.getX() == ghost.getX() && pacman.getY() == ghost.getY()) {
+                System.out.println("Game Over!");
+                System.exit(0);
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        PacmanGame game = new PacmanGame();
+        game.start();
+    }
+}

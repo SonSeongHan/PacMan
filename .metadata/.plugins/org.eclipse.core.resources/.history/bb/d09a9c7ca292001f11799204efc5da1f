@@ -1,0 +1,49 @@
+package pacman;
+
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
+public class Star {
+    private Map map;
+    private Set<int[]> starPositions;
+    private Random random;
+
+    public Star(Map map) {
+        this.map = map;
+        this.starPositions = new HashSet<>();
+        this.random = new Random();
+        generateStars();
+    }
+
+    private void generateStars() {
+        starPositions.clear();
+        while (starPositions.size() < 3) {
+            int x = random.nextInt(map.getBoardWidth() - 2) + 1; // 벽을 제외한 범위
+            int y = random.nextInt(map.getBoardHeight() - 2) + 1;
+
+            // 별이 놓일 수 있는지 확인
+            if (map.isCellEmpty(x, y)) {
+                starPositions.add(new int[]{x, y});
+            }
+        }
+    }
+
+    public void checkCollection(Pacman pacman) {
+        int[] pacmanPos = map.getPacmanPosition();
+
+        for (int[] starPos : starPositions) {
+            if (pacmanPos[0] == starPos[0] && pacmanPos[1] == starPos[1]) {
+                System.out.println("별을 수집했습니다! 특별 아이템을 얻었습니다!");
+                // 별을 수집했으니 효과를 적용
+                starPositions.remove(starPos);
+                generateStars(); // 새로운 별 생성
+                break;
+            }
+        }
+    }
+
+    public Set<int[]> getStarPositions() {
+        return starPositions;
+    }
+}

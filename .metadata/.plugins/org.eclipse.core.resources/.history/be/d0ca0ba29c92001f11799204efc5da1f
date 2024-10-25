@@ -1,0 +1,40 @@
+import java.util.Scanner;
+
+public class Pacman {
+    private Map map;
+
+    public Pacman(Map map) {
+        this.map = map;
+    }
+
+    public void move() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("이동 (WASD): ");
+        char input = scanner.nextLine().charAt(0);
+
+        switch (input) {
+            case 'W':
+            case 'w':
+                map.movePacman(0, -1);
+                break;
+            case 'A':
+            case 'a':
+                map.movePacman(-1, 0);
+                break;
+            case 'S':
+            case 's':
+                map.movePacman(0, 1);
+                break;
+            case 'D':
+            case 'd':
+                map.movePacman(1, 0);
+                break;
+            default:
+                System.out.println("잘못된 입력");
+        }
+    }
+
+    public boolean isGameOver() {
+        return map.isGameOver(this);
+    }
+}

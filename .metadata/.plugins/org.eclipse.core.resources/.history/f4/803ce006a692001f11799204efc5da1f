@@ -1,0 +1,39 @@
+package pacman;
+
+import java.util.Scanner;
+
+public class Pacman {
+    private Map map;
+
+    public Pacman(Map map) {
+        this.map = map;
+    }
+
+    public void move() {
+        Scanner scanner = new Scanner(System.in);
+        map.display(); // 맵을 먼저 표시
+        System.out.print("이동 (W↑, A←, S↓, D→): ");
+        String input = scanner.nextLine().toUpperCase(); // 대문자로 변환
+
+        switch (input) {
+            case "W": // 위
+                map.movePacman(0, -1);
+                break;
+            case "A": // 왼쪽
+                map.movePacman(-1, 0);
+                break;
+            case "S": // 아래
+                map.movePacman(0, 1);
+                break;
+            case "D": // 오른쪽
+                map.movePacman(1, 0);
+                break;
+            default:
+                System.out.println("잘못된 입력");
+        }
+    }
+
+    public boolean isGameOver() {
+        return map.isGameOver(); // 게임 종료 여부 확인
+    }
+}

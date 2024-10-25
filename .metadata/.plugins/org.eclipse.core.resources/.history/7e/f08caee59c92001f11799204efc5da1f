@@ -1,0 +1,20 @@
+package pacman;
+
+public class Star {
+    private Map map;
+
+    public Star(Map map) {
+        this.map = map;
+    }
+
+    public void checkCollection(Pacman pacman) {
+        int[] pacmanPos = map.getPacmanPosition();
+        int[] starPos = map.getStarPosition();
+
+        if (pacmanPos[0] == starPos[0] && pacmanPos[1] == starPos[1]) {
+            System.out.println("별을 수집했습니다! 특별 아이템을 얻었습니다!");
+            // 별을 수집했으니 효과를 적용
+            map.moveStar();
+        }
+    }
+}

@@ -1,0 +1,17 @@
+import java.util.Random;
+
+public class Ghost {
+    private Map map;
+    private Random random;
+
+    public Ghost(Map map) {
+        this.map = map;
+        this.random = new Random();
+    }
+
+    public void move() {
+        int xMove = random.nextInt(3) - 1; // -1, 0, 1
+        int yMove = random.nextInt(3) - 1; // -1, 0, 1
+        map.moveGhost(xMove, yMove);
+    }
+}

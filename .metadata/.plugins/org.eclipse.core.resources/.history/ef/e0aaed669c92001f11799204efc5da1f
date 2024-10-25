@@ -1,0 +1,46 @@
+package pacman;
+
+import java.util.Random;
+
+public class Ghost implements Runnable {
+    private int x;
+    private int y;
+    private final Map map;
+
+    public Ghost(int startX, int startY, Map map) {
+        this.x = startX;
+        this.y = startY;
+        this.map = map;
+    }
+
+    @Override
+    public void run() {
+        Random random = new Random();
+        while (true) {
+            int direction = random.nextInt(4);
+            int newX = x;
+            int newY = y;
+
+            switch (direction) {
+                case 0: newX--; break; // 위
+                case 1: newX++; break; // 아래
+                case 2: newY--; break; // 왼쪽
+                case 3: newY++; break; // 오른쪽
+            }
+
+            if (!map.isWall(newX, newY)) {
+                x = newX;
+                y = newY;
+            }
+
+            try {
+                Thread.sleep(1000); // 1초 대기 후 다시 움직임
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+}

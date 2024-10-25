@@ -1,0 +1,26 @@
+public class Seed {
+    private int x, y; // 위치
+    private boolean isEaten;
+
+    public Seed(int x, int y) {
+        this.x = x;
+        this.y = y;
+        this.isEaten = false;
+    }
+
+    public boolean isEaten() {
+        return isEaten;
+    }
+
+    public void eat() {
+        isEaten = true;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+}
