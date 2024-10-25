@@ -1,0 +1,22 @@
+package pacman;
+
+import java.util.Random;
+
+public class Ghost {
+    private Map map;
+    private Random random;
+
+    public Ghost(Map map) {
+        this.map = map;
+        this.random = new Random();
+    }
+
+    public void move(int index) {
+        // 기존의 move 메서드에서 모든 유령을 한 번에 움직이도록 변경
+        for (int i = 0; i < 3; i++) {
+            int xMove = random.nextInt(3) - 1; // -1, 0, 1
+            int yMove = random.nextInt(3) - 1; // -1, 0, 1
+            map.moveGhost(i, xMove, yMove);
+        }
+    }
+}
